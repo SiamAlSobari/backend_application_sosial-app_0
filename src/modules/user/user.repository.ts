@@ -1,17 +1,17 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { UserSigUpDto } from "./user.dto";
-import { UserAbstractRepository } from "./user.abstract.repository";
+import { UserSigInDto, UserSigUpDto } from "./user.dto";
+import { User } from "@prisma/client";
 
 @Injectable()
-export class UserRepository  extends UserAbstractRepository{
+export class UserRepository {
     constructor(
         private readonly prisma : PrismaService
     ) {
-        super()
     }
-    async signUp(dto:UserSigUpDto, hashedPassword:string): Promise<any> {
-        return await this.prisma.user.create({
+
+    async signUp(dto:UserSigUpDto, hashedPassword:string){
+        return  this.prisma.user.create({
             data:{
                 email:dto.email,
                 password:hashedPassword,
@@ -26,8 +26,9 @@ export class UserRepository  extends UserAbstractRepository{
         })
     }
 
-    async findByEmail(email: string): Promise<any> {
-        return await this.prisma.user.findUnique({
+
+    async findByEmail(email: string) {
+        return  this.prisma.user.findUnique({
             where:{
                 email:email
             }

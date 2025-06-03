@@ -17,3 +17,14 @@ export class UserSigUpDto{
     @IsString()
     name : string
 }
+
+
+export class UserSigInDto{
+    @IsEmail()
+    @IsNotEmpty()
+    email:string;
+
+    @IsNotEmpty()
+    @IsString()
+    password:string
+}
