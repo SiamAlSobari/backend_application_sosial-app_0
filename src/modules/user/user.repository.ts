@@ -10,7 +10,7 @@ export class UserRepository {
     ) {
     }
 
-    async signUp(dto:UserSigUpDto, hashedPassword:string){
+    public async signUp(dto:UserSigUpDto, hashedPassword:string){
         return  this.prisma.user.create({
             data:{
                 email:dto.email,
@@ -26,8 +26,12 @@ export class UserRepository {
         })
     }
 
+    public async deleteAccount(id:string) {
+        return this.prisma.user.delete({where:{id:id}})
+    }
 
-    async findByEmail(email: string) {
+
+    public async findByEmail(email: string) {
         return  this.prisma.user.findUnique({
             where:{
                 email:email

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserSigInDto, UserSigUpDto } from './user.dto';
 import { Response } from 'express';
@@ -33,11 +33,22 @@ export class UserController {
         return {message,acces_token}
     }
 
+    
+    @Delete()
+    @UseGuards(AuthGuard)
+    public async deleteAccount(
+        @Req() req:UserRequest,
+        @Param("id") id:string
+    ){
+        return this.service.deleteAccount(id)
+    }
+
+
     @Get()
     @UseGuards(AuthGuard)
     public async me(
         @Req() req:UserRequest
     ){
-        return  {loggedIn:true,user:req.user}
+        return {loggedIn:true,user:req.user}
     }
 }

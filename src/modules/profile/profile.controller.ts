@@ -1,4 +1,4 @@
-import { Body, Controller, Put, Req } from '@nestjs/common';
+import { Body, Controller, Patch,  Req } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './profile.dto';
 import { UserRequest } from 'src/common/interfaces/request.interface';
@@ -9,8 +9,8 @@ export class ProfileController {
         private readonly service:ProfileService
     ){}
 
-    @Put()
-    async updateProfile(
+    @Patch()
+    private async updateProfile(
         @Body() dto:UpdateProfileDto,
         @Req() req:UserRequest
     ){

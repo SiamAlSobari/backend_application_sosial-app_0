@@ -14,24 +14,43 @@ datasource db {
 }
 
 model User {
-  id String @id @unique @default(uuid())
-  email String @unique
-  password String
+  id         String   @id @unique @default(uuid())
+  email      String   @unique
+  password   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-
-
-  profile Profile?
+  profile    Profile?
+  post       Post[]
 }
 
 model Profile {
-  id String @id @unique @default(uuid())
-  user_name String @unique
-  name String
-  bio String? @db.Text
-  avatar_image String @default("https://hwchamber.co.uk/wp-content/uploads/2022/04/avatar-placeholder.gif")
-  
-  user_id String @unique
+  id           String  @id @unique @default(uuid())
+  user_name    String  @unique
+  name         String
+  bio          String? @db.Text
+  avatar_image String  @default("https://hwchamber.co.uk/wp-content/uploads/2022/04/avatar-placeholder.gif")
+  user_id      String @unique
+  user         User   @relation(fields: [user_id], references: [id])
+}
 
-  user User @relation(fields: [user_id],references: [id])
+model Post {
+  id         String   @id @unique @default(uuid())
+  caption    String?  @db.Text
+  created_at DateTime @default(now())
+  user_id   String
+  user       User   @relation(fields: [user_id], references: [id])
+  media      Media[]
+}
+
+enum MediaType {
+  VIDEO
+  IMAGE
+}
+
+model Media {
+  id      String    @id @unique @default(uuid())
+  url     String
+  type    MediaType
+  post_id String
+  post    Post      @relation(fields: [post_id], references: [id])
 }

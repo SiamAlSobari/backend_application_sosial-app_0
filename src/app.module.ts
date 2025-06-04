@@ -5,11 +5,13 @@ import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { ConfigModule } from '@nestjs/config';
+import { PostModule } from './modules/post/post.module';
+import { MediaModule } from './modules/media/media.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true
-  }),UserModule,PrismaModule, ProfileModule],
+  }),UserModule,PrismaModule, ProfileModule, PostModule, MediaModule],
   controllers: [AppController],
   providers: [AppService],
 })

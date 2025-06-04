@@ -11,7 +11,7 @@ export class UserService  {
         private readonly jwtService:JwtService
     ) {}
 
-    async signUp(dto: UserSigUpDto) {
+    public async signUp(dto: UserSigUpDto) {
         const existingUSer = await this.repository.findByEmail(dto.email)
         if (existingUSer) {
             throw new HttpException("User Sudah ada", HttpStatus.CONFLICT)
@@ -20,7 +20,7 @@ export class UserService  {
         return this.repository.signUp(dto, hashedPassword)
     }
 
-    async signIn(dto: UserSigInDto) {
+    public async signIn(dto: UserSigInDto) {
         const existingUser = await this.repository.findByEmail(dto.email)
         if(!existingUser){
             throw new HttpException("User tidak ada ",HttpStatus.NOT_FOUND)
@@ -37,5 +37,9 @@ export class UserService  {
             message:"Login Berhasil",
             acces_token : await this.jwtService.signAsync(payload)
         }
+    }
+
+    public async deleteAccount(id:string){
+        return this.repository.deleteAccount(id)
     }
 }
