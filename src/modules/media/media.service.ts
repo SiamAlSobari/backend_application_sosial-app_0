@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MediaRepository } from './media.repository';
 import { MediaDto } from './media.dto';
-import { MediaEnum } from 'src/common/enum/media.enum';
 
 @Injectable()
 export class MediaService {
@@ -28,7 +27,7 @@ export class MediaService {
             return {
                 id:m.id,
                 url:m.url,
-                type:m.type as MediaEnum,
+                type:m.type ,
                 post_id
             }
         }))

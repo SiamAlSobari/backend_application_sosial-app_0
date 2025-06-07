@@ -42,15 +42,12 @@ model Post {
   media      Media[]
 }
 
-enum MediaType {
-  VIDEO
-  IMAGE
-}
+
 
 model Media {
   id      String    @id @unique @default(uuid())
   url     String
-  type    MediaType
+  type    String?
   post_id String
   post    Post      @relation(fields: [post_id], references: [id])
 }

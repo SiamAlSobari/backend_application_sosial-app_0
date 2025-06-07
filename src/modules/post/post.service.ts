@@ -17,7 +17,10 @@ export class PostService {
         if(dto.media && dto.media.length > 0){
             const media = await this.mediaService.saveMediaToPost(post.id,dto.media)
         }
-
         return post
+    }
+
+    public async getPostsMe(user_id:string){
+        return await this.repository.getPostsMe(user_id)
     }
 }
