@@ -9,12 +9,20 @@ export class ProfileRepository {
     ) {}
 
     public async updateProfile(dto:UpdateProfileDto,userId:string){
-        return this.prisma.profile.update({
+        return await this.prisma.profile.update({
             where:{
                 user_id:userId
             },
             data:{
                 ...dto
+            }
+        })
+    }
+
+    public async getProfile(user_id:string) {
+        return await this.prisma.profile.findFirst({
+            where: {
+                user_id: user_id
             }
         })
     }

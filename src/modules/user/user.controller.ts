@@ -11,14 +11,14 @@ export class UserController {
         private readonly service:UserService
     ) {}
 
-    @Post("signup")
+    @Post("register")
     public async signUp(
         @Body() dto:UserSigUpDto
     ){
         return this.service.signUp(dto)
     }
 
-    @Post("signin")
+    @Post("login")
     public async signIn(
         @Body() dto:UserSigInDto,
         @Res({passthrough:true}) res:Response

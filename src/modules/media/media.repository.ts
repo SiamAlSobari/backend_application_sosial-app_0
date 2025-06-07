@@ -9,7 +9,7 @@ export class MediaRepository {
     ) {}
 
     public async mediaSave(post_id:string,mediaItem:MediaDto){
-        return this.prisma.media.create({
+        return await this.prisma.media.create({
             data:{
                 post_id:post_id,
                 url:mediaItem.url,

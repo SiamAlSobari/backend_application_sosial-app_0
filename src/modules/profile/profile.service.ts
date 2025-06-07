@@ -12,6 +12,14 @@ export class ProfileService {
         dto:UpdateProfileDto,
         id:string
     ){
-        return this.repository.updateProfile(dto,id)
+        return await this.repository.updateProfile(dto,id)
+    }
+
+    public async getProfile(user_id:string){
+        const profile = await this.repository.getProfile(user_id)
+        return {
+            message:"Data profile ditemukan",
+            data:profile
+        }
     }
 }
