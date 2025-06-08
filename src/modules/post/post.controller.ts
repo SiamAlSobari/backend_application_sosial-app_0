@@ -35,17 +35,7 @@ export class PostController {
         @UploadedFiles() files:Express.Multer.File[]
     ){
         const base_url = `${(req as unknown as Request).protocol}://${(req as unknown as Request).headers.host}`
-        if(!files || files.length == 0) {
-            dto.media = []
-        }else{
-            dto.media = files.map((file)=>{
-                const media = new MediaDto()
-                media.url = `${base_url}/upload/${file.filename}`
-                media.type = file.mimetype
-                return media
-            })
-        }
-        return this.service.createPost(dto,req.user.id)
+        return this.service.createPost(dto,req.user.id,files,base_url)
     }
 
     @Get()

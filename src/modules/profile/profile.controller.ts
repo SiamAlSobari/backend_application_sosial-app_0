@@ -26,5 +26,4 @@ export class ProfileController {
     ){
         return this.service.getProfile(req.user.id)
     }
-    
 }
