@@ -24,6 +24,9 @@ export class PostRepository {
             },
             include: {
                 media: true
+            },
+            orderBy: {
+                created_at: 'desc'
             }
         })
     }
