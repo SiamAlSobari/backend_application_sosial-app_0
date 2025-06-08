@@ -23,7 +23,28 @@ export class PostRepository {
                 user_id: user_id
             },
             include: {
-                media: true
+                media: true,
+                user: {
+                    include: {
+                        profile: true
+                    }
+                }
+            },
+            orderBy: {
+                created_at: 'desc'
+            }
+        })
+    }
+
+    public async getAllPostsByDesc(){
+        return await this.prisma.post.findMany({
+            include: {
+                media: true,
+                user: {
+                    include: {
+                        profile: true
+                    }
+                }
             },
             orderBy: {
                 created_at: 'desc'

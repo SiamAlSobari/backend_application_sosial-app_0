@@ -21,6 +21,28 @@ model User {
   updated_at DateTime @updatedAt
   profile    Profile?
   post       Post[]
+
+  sendRequest FriendRequest[] @relation("SenderRequest")
+  receiverRequest FriendRequest[] @relation("ReceiverRequest")
+}
+
+model FriendRequest {
+  id String @id @unique @default(uuid())
+  status FriendRequestStatus @default(PENDING)
+  created_at DateTime @default(now())
+  sender_id String
+  receiver_id String
+
+  sender User @relation("SenderRequest",fields: [sender_id],references: [id])
+  receiver User @relation("ReceiverRequest",fields: [receiver_id],references: [id])
+
+  @@unique([sender_id,receiver_id])
+}
+
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
 
 model Profile {

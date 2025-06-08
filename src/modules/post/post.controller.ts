@@ -44,4 +44,10 @@ export class PostController {
     getPosts(@Req() req:UserRequest){
         return this.service.getPostsMe(req.user.id)
     }
+
+    @Get('all')
+    @UseGuards(AuthGuard)
+    getAllPosts(){
+        return this.service.getAllPostsByDesc()
+    }
 }

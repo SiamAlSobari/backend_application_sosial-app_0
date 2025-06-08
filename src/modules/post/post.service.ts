@@ -34,4 +34,8 @@ export class PostService {
     public async getPostsMe(user_id:string){
         return await this.repository.getPostsMe(user_id)
     }
+
+    public async getAllPostsByDesc(){
+        return await this.repository.getAllPostsByDesc()
+    }
 }

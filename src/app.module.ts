@@ -7,11 +7,12 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { ConfigModule } from '@nestjs/config';
 import { PostModule } from './modules/post/post.module';
 import { MediaModule } from './modules/media/media.module';
+import { FriendModule } from './modules/friend/friend.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true
-  }),UserModule,PrismaModule, ProfileModule, PostModule, MediaModule],
+  }),UserModule,PrismaModule, ProfileModule, PostModule, MediaModule, FriendModule],
   controllers: [AppController],
   providers: [AppService],
 })
