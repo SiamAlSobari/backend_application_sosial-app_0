@@ -12,10 +12,10 @@ export class PostService {
         private readonly mediaService:MediaService
     ) {}
 
-    public async createPost(dto:CreatePostDto,user_id:string,files:Express.Multer.File[],base_url:string){ {
+    public async createPost(dto:CreatePostDto,user_id:string,files:Express.Multer.File[],base_url:string){ 
         const post = await this.repository.createPost(dto.caption,user_id)
         if(!files || files.length == 0){
-            return dto.media = []
+            dto.media = []
         }else{
             dto.media = files.map((file)=>{
                 const media = new MediaDto()
@@ -28,8 +28,8 @@ export class PostService {
             const media = await this.mediaService.saveMediaToPost(post.id,dto.media)
         }
         return post
-        }
     }
+
 
     public async getPostsMe(user_id:string){
         return await this.repository.getPostsMe(user_id)
