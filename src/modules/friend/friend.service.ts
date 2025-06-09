@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { FriendRepository } from './friend.repository';
-import { AddFriendDto } from './friend.dto';
+import { AddFriendDto, ResponeFriendDto } from './friend.dto';
 
 @Injectable()
 export class FriendService {
@@ -17,5 +17,9 @@ export class FriendService {
             throw new HttpException("Friend sudah ada",HttpStatus.CONFLICT)
         }
         return await this.repository.sendRequest(sender_id,dto.receiver_id)
+    }
+
+    public async responeRequest(sender_id:string,dto:ResponeFriendDto) {
+        return await this.repository.responeRequest(sender_id,dto)
     }
 }

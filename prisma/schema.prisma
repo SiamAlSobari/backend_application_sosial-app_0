@@ -22,21 +22,21 @@ model User {
   profile    Profile?
   post       Post[]
 
-  sendRequest FriendRequest[] @relation("SenderRequest")
+  sendRequest     FriendRequest[] @relation("SenderRequest")
   receiverRequest FriendRequest[] @relation("ReceiverRequest")
 }
 
 model FriendRequest {
-  id String @id @unique @default(uuid())
-  status FriendRequestStatus @default(PENDING)
-  created_at DateTime @default(now())
-  sender_id String
+  id          String              @id @unique @default(uuid())
+  status      FriendRequestStatus @default(PENDING)
+  created_at  DateTime            @default(now())
+  sender_id   String
   receiver_id String
 
-  sender User @relation("SenderRequest",fields: [sender_id],references: [id])
-  receiver User @relation("ReceiverRequest",fields: [receiver_id],references: [id])
+  sender   User @relation("SenderRequest", fields: [sender_id], references: [id])
+  receiver User @relation("ReceiverRequest", fields: [receiver_id], references: [id])
 
-  @@unique([sender_id,receiver_id])
+  @@unique([sender_id, receiver_id])
 }
 
 enum FriendRequestStatus {
@@ -50,26 +50,31 @@ model Profile {
   user_name    String  @unique
   name         String
   bio          String? @db.Text
+  pekerjaan    String?
+  pendidikan   String?
+  alamat       String?
+  gender       String?
+  website      String?
+  is_public    Boolean @default(true)
   avatar_image String  @default("https://hwchamber.co.uk/wp-content/uploads/2022/04/avatar-placeholder.gif")
-  user_id      String @unique
-  user         User   @relation(fields: [user_id], references: [id])
+  cover_image  String  @default("https://img.freepik.com/free-photo/smooth-black-paper-textured-background_53876-160610.jpg?semt=ais_hybrid&w=740")
+  user_id      String  @unique
+  user         User    @relation(fields: [user_id], references: [id])
 }
 
 model Post {
   id         String   @id @unique @default(uuid())
   caption    String?  @db.Text
   created_at DateTime @default(now())
-  user_id   String
-  user       User   @relation(fields: [user_id], references: [id])
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id])
   media      Media[]
 }
 
-
-
 model Media {
-  id      String    @id @unique @default(uuid())
+  id      String  @id @unique @default(uuid())
   url     String
   type    String?
   post_id String
-  post    Post      @relation(fields: [post_id], references: [id])
+  post    Post    @relation(fields: [post_id], references: [id])
 }
