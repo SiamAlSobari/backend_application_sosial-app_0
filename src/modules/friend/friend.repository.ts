@@ -17,7 +17,7 @@ export class FriendRepository {
             }
         })
     }
-    public async addFriend(sender_id:string,receiver_id:string){
+    public async sendRequest(sender_id:string,receiver_id:string){
         return await this.prisma.friendRequest.create({
             data: {
                 sender_id:sender_id,

@@ -16,6 +16,6 @@ export class FriendController {
         @Req() req:UserRequest,
         @Body() dto:AddFriendDto
     ){
-        return this.service.addFriend(req.user.id,dto)
+        return this.service.sendRequest(req.user.id,dto)
     }
 }
