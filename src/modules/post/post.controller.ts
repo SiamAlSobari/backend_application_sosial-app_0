@@ -46,7 +46,6 @@ export class PostController {
     }
 
     @Get('all')
-    @UseGuards(AuthGuard)
     getAllPosts(){
         return this.service.getAllPostsByDesc()
     }

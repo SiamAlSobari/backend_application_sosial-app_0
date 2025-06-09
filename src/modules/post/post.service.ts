@@ -36,6 +36,10 @@ export class PostService {
     }
 
     public async getAllPostsByDesc(){
-        return await this.repository.getAllPostsByDesc()
+        const posts = await this.repository.getAllPostsByDesc()
+        return {
+            message:"Data post ditemukan",
+            data:posts
+        }
     }
 }
