@@ -15,8 +15,8 @@ export class ProfileService {
         return await this.repository.updateProfile(dto,id)
     }
 
-    public async getProfile(user_id:string){
-        const profile = await this.repository.getProfile(user_id)
+    public async getProfileMe(user_id:string){
+        const profile = await this.repository.getProfilMe(user_id)
         return {
             message:"Data profile ditemukan",
             data:profile

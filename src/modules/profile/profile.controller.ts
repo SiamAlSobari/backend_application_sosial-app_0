@@ -21,9 +21,9 @@ export class ProfileController {
 
     @Get()
     @UseGuards(AuthGuard)
-    public async getProfile(
+    public async getProfileMe(
         @Req() req:UserRequest
     ){
-        return this.service.getProfile(req.user.id)
+        return this.service.getProfileMe(req.user.id)
     }
 }

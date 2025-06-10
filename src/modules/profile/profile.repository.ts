@@ -19,7 +19,7 @@ export class ProfileRepository {
         })
     }
 
-    public async getProfile(user_id:string) {
+    public async getProfilMe(user_id:string) {
         return await this.prisma.profile.findFirst({
             where: {
                 user_id: user_id
