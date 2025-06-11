@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { UpdateProfileDto } from "./profile.dto";
+import multer from "multer";
 
 @Injectable()
 export class ProfileRepository {
@@ -8,13 +9,13 @@ export class ProfileRepository {
         private readonly prisma: PrismaService
     ) {}
 
-    public async updateProfile(dto:UpdateProfileDto,userId:string){
+    public async updateCoverProfile(userId:string,file:Express.Multer.File,base_url:string){
         return await this.prisma.profile.update({
             where:{
                 user_id:userId
             },
             data:{
-                ...dto
+                cover_image:`${base_url}/upload/${file.filename}`
             }
         })
     }

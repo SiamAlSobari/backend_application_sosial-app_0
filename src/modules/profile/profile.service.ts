@@ -8,11 +8,12 @@ export class ProfileService {
         private readonly repository:ProfileRepository
     ){}
 
-    public async updateProfile(
-        dto:UpdateProfileDto,
-        id:string
+    public async updateCoverProfile(
+        id:string,
+        file:Express.Multer.File,
+        base_url:string
     ){
-        return await this.repository.updateProfile(dto,id)
+        return await this.repository.updateCoverProfile(id,file,base_url)
     }
 
     public async getProfileMe(user_id:string){
