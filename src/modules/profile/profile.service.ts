@@ -23,4 +23,8 @@ export class ProfileService {
             data:profile
         }
     }
+
+    public async updateProfileAvatar(user_id:string,file:Express.Multer.File,base_url:string){
+        return await this.repository.updateProfileAvatar(user_id,file,base_url)
+    }
 }

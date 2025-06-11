@@ -27,4 +27,15 @@ export class ProfileRepository {
             }
         })
     }
+
+    public async updateProfileAvatar(user_id:string,file:Express.Multer.File,base_url:string) {
+        return await this.prisma.profile.update({
+            where: {
+                user_id
+            },
+            data: {
+                avatar_image:`${base_url}/upload/${file.filename}`
+            }
+        })
+    }
 }

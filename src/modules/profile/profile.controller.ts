@@ -49,4 +49,25 @@ export class ProfileController {
   public async getProfileMe(@Req() req: UserRequest) {
     return this.service.getProfileMe(req.user.id);
   }
+
+  @Patch('avatar')
+  @UseGuards(AuthGuard)
+  @UseInterceptors(
+    FileInterceptor('avatar',{
+        storage: diskStorage({
+            destination: './upload',
+            filename(req, file, callback) {
+                const filename = `${randomUUID()}${extname(file.originalname)}`;
+                callback(null, filename);
+            },
+        })
+    })
+  )
+  public async updateProfileAvatar(
+    @Req() req: UserRequest,
+    @UploadedFile() file: Express.Multer.File
+  ){
+    const base_url = `${(req as unknown as Request).protocol}://${(req as unknown as Request).headers.host}`;
+    return this.service.updateProfileAvatar(req.user.id,file,base_url)
+  }
 }
