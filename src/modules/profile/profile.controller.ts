@@ -70,4 +70,14 @@ export class ProfileController {
     const base_url = `${(req as unknown as Request).protocol}://${(req as unknown as Request).headers.host}`;
     return this.service.updateProfileAvatar(req.user.id,file,base_url)
   }
+
+  
+
+  @Patch()
+  public async updateProfile(
+    @Req() req: UserRequest,
+    @Body() dto: UpdateProfileDto
+  ){
+    
+  }
 }

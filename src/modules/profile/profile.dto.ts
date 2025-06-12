@@ -4,5 +4,29 @@ export class UpdateProfileDto {
 
     @IsOptional()
     @IsString()
-    cover_image:string
+    bio: string
+
+    @IsOptional()
+    @IsString()
+    alamat: string
+
+    @IsOptional()
+    @IsString()
+    pekerjaan: string
+
+    @IsOptional()
+    @IsString()
+    pendidikan: string
+
+    @IsOptional()
+    @IsString()
+    gender: string
+
+    @IsOptional()
+    @IsString()
+    tanggal_lahir: string
+
+    @IsOptional()
+    @IsString()
+    website: string
 }
