@@ -78,6 +78,6 @@ export class ProfileController {
     @Req() req: UserRequest,
     @Body() dto: UpdateProfileDto
   ){
-    
+    return this.service.updateProfile(req.user.id,dto)
   }
 }
