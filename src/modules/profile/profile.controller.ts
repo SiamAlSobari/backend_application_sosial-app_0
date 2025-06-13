@@ -71,9 +71,8 @@ export class ProfileController {
     return this.service.updateProfileAvatar(req.user.id,file,base_url)
   }
 
-  
-
   @Patch()
+  @UseGuards(AuthGuard)
   public async updateProfile(
     @Req() req: UserRequest,
     @Body() dto: UpdateProfileDto

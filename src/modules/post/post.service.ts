@@ -32,7 +32,11 @@ export class PostService {
 
 
     public async getPostsMe(user_id:string){
-        return await this.repository.getPostsMe(user_id)
+        const postsMe = await this.repository.getPostsMe(user_id)
+        return {
+            message:"Data post ditemukan",
+            data:postsMe
+        }
     }
 
     public async getAllPostsByDesc(){

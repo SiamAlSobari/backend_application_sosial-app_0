@@ -22,14 +22,26 @@ model User {
   profile    Profile?
   post       Post[]
 
-  sendRequest     FriendRequest[] @relation("SenderRequest")
-  receiverRequest FriendRequest[] @relation("ReceiverRequest")
+  Followers        Follower[] @relation("UserFollowers")
+  Followings       Follower[] @relation("UserFollowings")
+  sendRequest     FollowRequest[] @relation("SenderRequest")
+  receiverRequest FollowRequest[] @relation("ReceiverRequest")
 }
 
-model FriendRequest {
-  id          String              @id @unique @default(uuid())
-  status      FriendRequestStatus @default(PENDING)
-  created_at  DateTime            @default(now())
+model Follower {
+  id          String   @id @unique @default(uuid())
+  createdAt   DateTime @default(now())
+  follower    User     @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId  String
+  following   User     @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId String
+
+  @@unique([followerId, followingId])
+}
+
+model FollowRequest {
+  id          String   @id @unique @default(uuid())
+  created_at  DateTime @default(now())
   sender_id   String
   receiver_id String
 
@@ -37,12 +49,6 @@ model FriendRequest {
   receiver User @relation("ReceiverRequest", fields: [receiver_id], references: [id])
 
   @@unique([sender_id, receiver_id])
-}
-
-enum FriendRequestStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
 }
 
 model Profile {
@@ -66,6 +72,7 @@ model Profile {
 model Post {
   id         String   @id @unique @default(uuid())
   caption    String?  @db.Text
+  is_public  Boolean  @default(true)
   created_at DateTime @default(now())
   user_id    String
   user       User     @relation(fields: [user_id], references: [id])

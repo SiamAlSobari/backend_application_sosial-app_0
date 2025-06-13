@@ -42,9 +42,11 @@ export class ProfileRepository {
     public async updateProfile(user_id:string,dto:UpdateProfileDto) {
         return await this.prisma.profile.update({
             where: {
-                user_id
+                user_id:user_id
             },
-            data: dto
+            data: {
+                ...dto
+            }
         })
     }
 }
