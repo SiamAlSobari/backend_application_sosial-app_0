@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './post.dto';
 import { UserRequest } from 'src/common/interfaces/request.interface';
@@ -48,5 +48,12 @@ export class PostController {
     @Get('all')
     getAllPosts(){
         return this.service.getAllPostsByDesc()
+    }
+
+    @Get(':id')
+    getPostById(
+        @Param('id') id:string,
+    ){
+        return this.service.getPostById(id)
     }
 }

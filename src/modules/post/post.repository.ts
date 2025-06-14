@@ -51,4 +51,20 @@ export class PostRepository {
             }
         })
     }
+
+    public async getPostById(id:string) {
+        return await this.prisma.post.findUnique({
+            where: {
+                id: id
+            },
+            include: {
+                media: true,
+                user: {
+                    include: {
+                        profile: true
+                    }
+                }
+            }
+        })
+    }
 }

@@ -46,4 +46,12 @@ export class PostService {
             data:posts
         }
     }
+
+    public async getPostById(id:string){
+        const post = await this.repository.getPostById(id)
+        return {
+            message:"Data post ditemukan",
+            data:post
+        }
+    }
 }
