@@ -42,4 +42,12 @@ export class UserService  {
     public async deleteAccount(id:string){
         return this.repository.deleteAccount(id)
     }
+
+    public async getAllUsers(user_id:string){
+        const users = await this.repository.getAllUsers(user_id)
+        return {
+            message:"Data user ditemukan",
+            data:users
+        }
+    }
 }

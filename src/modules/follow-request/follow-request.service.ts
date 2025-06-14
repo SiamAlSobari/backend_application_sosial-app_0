@@ -14,11 +14,23 @@ export class FollowRequestService {
         if(dto.receiver_id === sender_id){
             throw new HttpException("Tidak bisa follow diri sendiri",HttpStatus.BAD_REQUEST)
         }
+        const existingRequest = await this.repository.findRequest(dto.receiver_id, sender_id)
+        if (existingRequest) {
+            throw new HttpException("Request sudah ada", HttpStatus.CONFLICT)
+        }
         return this.repository.sendFollowRequest(dto.receiver_id, sender_id)
     }
 
     public async acceptFollowRequest(dto: FollowRequestDto, sender_id: string) {
+        const existingRequest = await this.repository.findRequest(dto.receiver_id, sender_id)
+        if (existingRequest) {
+            throw new HttpException("Request sudah ada", HttpStatus.CONFLICT)
+        }
         await this.repository.deleteRequest(sender_id, dto.receiver_id)
         return this.followerRepository.createFollower(dto.receiver_id, sender_id)
+    }
+
+    public async rejectFollowRequest(dto: FollowRequestDto, sender_id: string) {
+        return this.repository.deleteRequest(sender_id, dto.receiver_id)
     }
 }

@@ -38,4 +38,19 @@ export class UserRepository {
             }
         })
     }
+
+    public async getAllUsers(user_id:string) {
+        return this.prisma.user.findMany({
+            where:{
+                NOT:{id:user_id},
+                Followers:{
+                    none:{followerId:user_id}
+                },
+                receiverRequest:{
+                    none:{sender_id:user_id}
+                }
+            },
+            include:{profile:true}
+        })
+    }
 }

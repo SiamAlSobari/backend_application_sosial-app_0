@@ -51,4 +51,12 @@ export class UserController {
     ){
         return {loggedIn:true,user:req.user}
     }
+
+    @Get("all")
+    @UseGuards(AuthGuard)
+    public async getAllUsers(
+        @Req() req:UserRequest
+    ){
+        return this.service.getAllUsers(req.user.id)
+    }
 }

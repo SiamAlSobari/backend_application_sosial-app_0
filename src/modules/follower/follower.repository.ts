@@ -15,4 +15,13 @@ export class FollowerRepository {
             ]
         })
     }
+
+    public async findFollower(receiver_id: string, sender_id: string) {
+        return await this.prisma.follower.findFirst({
+            where: {
+                followerId: sender_id,
+                followingId: receiver_id
+            }
+        })
+    }
 }
