@@ -59,4 +59,12 @@ export class UserController {
     ){
         return this.service.getAllUsers(req.user.id)
     }
+
+    @Get("request")
+    @UseGuards(AuthGuard)
+    public async getFollowRequest(
+        @Req() req:UserRequest
+    ){
+        return this.service.getUserRequest(req.user.id)
+    }
 }

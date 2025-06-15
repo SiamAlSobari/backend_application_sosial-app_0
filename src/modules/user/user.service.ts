@@ -50,4 +50,12 @@ export class UserService  {
             data:users
         }
     }
+
+    public async getUserRequest(user_id:string){
+        const users = await this.repository.getUserRequest(user_id)
+        return {
+            message:"Data user ditemukan",
+            data:users
+        }
+    }
 }

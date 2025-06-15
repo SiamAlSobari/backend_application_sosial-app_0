@@ -53,4 +53,18 @@ export class UserRepository {
             include:{profile:true}
         })
     }
+
+    public async getUserRequest(user_id:string) {
+        return this.prisma.user.findMany({
+            where:{
+                NOT:{id:user_id},
+                sendRequest:{
+                    some:{receiver_id:user_id}
+                }
+            },
+            include:{
+                profile:true
+            }
+        })
+    }
 }
