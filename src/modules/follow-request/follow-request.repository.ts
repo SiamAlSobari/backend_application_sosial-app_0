@@ -11,8 +11,8 @@ export class FollowRequestRepository {
     public async findRequest(receiver_id: string, sender_id: string) {
         return await this.prisma.followRequest.findFirst({
             where: {
-                sender_id: sender_id,
-                receiver_id: receiver_id
+                sender_id: receiver_id,
+                receiver_id: sender_id
             }
         })
     }
@@ -26,13 +26,10 @@ export class FollowRequestRepository {
         })
     }
 
-    public async deleteRequest(sender_id: string, receiver_id: string) {
+    public async deleteRequest(id: string) {
         return await this.prisma.followRequest.delete({
             where: {
-                sender_id_receiver_id: {
-                    sender_id: sender_id,
-                    receiver_id: receiver_id
-                }
+                id: id
             }
         })
     }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Req, UseGuards } from '@nestjs/common';
 import { FollowRequestService } from './follow-request.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { FollowRequestDto } from './follow-request.dto';
@@ -26,5 +26,14 @@ export class FollowRequestController {
         @Req() req: UserRequest
     ) {
         return this.service.acceptFollowRequest(dto, req.user.id)
+    }
+
+    @Delete('reject')
+    @UseGuards(AuthGuard)
+    rejectFollowRequest(
+        @Body() dto: FollowRequestDto,
+        @Req() req: UserRequest
+    ) {
+        return this.service.rejectFollowRequest(dto, req.user.id)
     }
 }

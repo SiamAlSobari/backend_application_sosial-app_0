@@ -42,12 +42,19 @@ export class UserRepository {
     public async getAllUsers(user_id:string) {
         return this.prisma.user.findMany({
             where:{
+                //saya sama dengan diri saya sendiri
                 NOT:{id:user_id},
+                //saya tidak follow dia/mengikuti dia
                 Followers:{
                     none:{followerId:user_id}
                 },
+                //saya belum request ke dia 
                 receiverRequest:{
                     none:{sender_id:user_id}
+                },
+                //dia belum request saya
+                sendRequest:{
+                    none:{receiver_id:user_id}
                 }
             },
             include:{profile:true}
@@ -58,6 +65,8 @@ export class UserRepository {
         return this.prisma.user.findMany({
             where:{
                 NOT:{id:user_id},
+
+                //dia mengirimkan request ke saya
                 sendRequest:{
                     some:{receiver_id:user_id}
                 }
