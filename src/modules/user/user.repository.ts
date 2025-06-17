@@ -44,7 +44,7 @@ export class UserRepository {
             where:{
                 //saya sama dengan diri saya sendiri
                 NOT:{id:user_id},
-                //saya tidak follow dia/mengikuti dia
+                //saya tidak follow dia/mengikuti dia (saya follow siapa saja namun di none untuk menghilangkan)
                 Followers:{
                     none:{followerId:user_id}
                 },

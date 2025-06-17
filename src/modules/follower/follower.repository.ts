@@ -16,11 +16,17 @@ export class FollowerRepository {
         })
     }
 
-    public async findFollower(receiver_id: string, sender_id: string) {
-        return await this.prisma.follower.findFirst({
+    public async findFollowers(user_id) {
+        return await this.prisma.follower.findMany({
             where: {
-                followerId: sender_id,
-                followingId: receiver_id
+                followingId:user_id
+            },
+            include:{
+                follower:{
+                    include:{
+                        profile:true
+                    }
+                }
             }
         })
     }

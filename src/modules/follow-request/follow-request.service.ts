@@ -27,7 +27,11 @@ export class FollowRequestService {
             throw new HttpException("Request tidak ada", HttpStatus.CONFLICT)
         }
         await this.repository.deleteRequest(existingRequest.id)
-        return this.followerRepository.createFollower(dto.receiver_id, sender_id)
+        const createFollower = await this.followerRepository.createFollower(dto.receiver_id, sender_id)
+        return {
+            message:"Permintaan berhasil diterima",
+            data:createFollower
+        }
     }
 
     public async rejectFollowRequest(dto: FollowRequestDto, sender_id: string) {
@@ -35,6 +39,10 @@ export class FollowRequestService {
         if (!existingRequest) {
             throw new HttpException("Request tidak ada", HttpStatus.NOT_FOUND)
         }
-        return this.repository.deleteRequest(existingRequest.id)
+        const deleteRequest = await this.repository.deleteRequest(existingRequest.id)
+        return {
+            message:"Permintaan berhasil ditolak",
+            data:deleteRequest
+        }
     }
 }
