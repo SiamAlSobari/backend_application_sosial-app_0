@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
+import { QueryFollowerDto } from "./follower.dto";
 
 @Injectable()
 export class FollowerRepository {
@@ -16,10 +17,20 @@ export class FollowerRepository {
         })
     }
 
-    public async findFollowers(user_id) {
+    public async findFollowers(user_id,query:QueryFollowerDto){
         return await this.prisma.follower.findMany({
             where: {
-                followingId:user_id
+                followingId:user_id,
+                NOT:{
+                    followerId:user_id
+                },
+                follower:{
+                    profile:{
+                        name:{
+                            contains:query.search.toLowerCase() || "",
+                        }
+                    }
+                }
             },
             include:{
                 follower:{
@@ -27,6 +38,19 @@ export class FollowerRepository {
                         profile:true
                     }
                 }
+            },
+            take:Number(query.limit),
+            skip:(Number(query.page)-1)*Number(query.limit)
+        })
+    }
+
+    public async totalFollowers(user_id){
+        return await this.prisma.follower.count({
+            where: {
+                followingId:user_id,
+                NOT:{
+                    followerId:user_id
+                },
             }
         })
     }

@@ -57,7 +57,7 @@ export class UserRepository {
                     none:{receiver_id:user_id}
                 }
             },
-            include:{profile:true}
+            include:{profile:true},
         })
     }
 
