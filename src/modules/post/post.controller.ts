@@ -56,4 +56,11 @@ export class PostController {
     ){
         return this.service.getPostById(id)
     }
+
+    @Get('user/:id')
+    getUserIdPosts(
+        @Param('id') id:string
+    ){
+        return this.service.getUserIdPosts(id)
+    }
 }

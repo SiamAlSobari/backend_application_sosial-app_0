@@ -67,4 +67,15 @@ export class PostRepository {
             }
         })
     }
+
+    public async getUserIdPosts(id:string) {
+        return await this.prisma.post.findMany({
+            where: {
+                user_id: id
+            },
+            include: {
+                media: true,
+            }
+        })
+    }
 }
