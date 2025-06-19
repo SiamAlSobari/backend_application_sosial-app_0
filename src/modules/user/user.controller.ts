@@ -67,4 +67,12 @@ export class UserController {
     ){
         return this.service.getUserRequest(req.user.id)
     }
+
+    @Get("follower/:id")
+    @UseGuards(AuthGuard)
+    public async getFollowerById(
+        @Param("id") id:string
+    ){
+        return this.service.getUserFollowerById(id)
+    }
 }

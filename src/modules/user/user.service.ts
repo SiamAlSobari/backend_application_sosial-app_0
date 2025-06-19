@@ -58,4 +58,12 @@ export class UserService  {
             data:users
         }
     }
+
+    public async getUserFollowerById(id:string){
+        const users = await this.repository.getUserFollowerById(id)
+        return {
+            message:"Data user ditemukan",
+            data:users
+        }
+    }
 }
