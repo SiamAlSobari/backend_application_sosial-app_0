@@ -27,7 +27,7 @@ model User {
   Followings      Follower[]      @relation("UserFollowings")
   sendRequest     FollowRequest[] @relation("SenderRequest")
   receiverRequest FollowRequest[] @relation("ReceiverRequest")
-  Likes           Likes[]
+  like           Like[]
 }
 
 model Follower {
@@ -86,7 +86,7 @@ model Post {
   //relasi
   user  User    @relation(fields: [user_id], references: [id])
   media Media[]
-  Likes Likes[]
+  like Like[]
 }
 
 model Media {
@@ -99,7 +99,7 @@ model Media {
   post Post @relation(fields: [post_id], references: [id])
 }
 
-model Likes {
+model Like {
   id         String   @id @unique @default(uuid())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -109,4 +109,6 @@ model Likes {
   //relasi
   user User @relation(fields: [user_id], references: [id])
   post Post @relation(fields: [post_id], references: [id])
+
+  @@unique([user_id,post_id])
 }

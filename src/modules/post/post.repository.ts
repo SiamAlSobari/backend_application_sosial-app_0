@@ -44,7 +44,8 @@ export class PostRepository {
                     include: {
                         profile: true
                     }
-                }
+                },
+                like: true
             },
             orderBy: {
                 created_at: 'desc'
