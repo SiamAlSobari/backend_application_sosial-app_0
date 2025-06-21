@@ -74,6 +74,11 @@ export class PostRepository {
                 user_id: id
             },
             include: {
+                user: {
+                    include: {
+                        profile: true
+                    }
+                },
                 media: true,
             }
         })

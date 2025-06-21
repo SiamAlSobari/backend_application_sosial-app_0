@@ -51,6 +51,7 @@ export class PostController {
     }
 
     @Get(':id')
+    @UseGuards(AuthGuard)
     getPostById(
         @Param('id') id:string,
     ){
@@ -58,6 +59,7 @@ export class PostController {
     }
 
     @Get('user/:id')
+    @UseGuards(AuthGuard)
     getUserIdPosts(
         @Param('id') id:string
     ){

@@ -19,23 +19,26 @@ model User {
   password   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  profile    Profile?
-  post       Post[]
 
-  Followers        Follower[] @relation("UserFollowers")
-  Followings       Follower[] @relation("UserFollowings")
-  
+  //relasi
+  profile         Profile?
+  post            Post[]
+  Followers       Follower[]      @relation("UserFollowers")
+  Followings      Follower[]      @relation("UserFollowings")
   sendRequest     FollowRequest[] @relation("SenderRequest")
   receiverRequest FollowRequest[] @relation("ReceiverRequest")
+  Likes           Likes[]
 }
 
 model Follower {
   id          String   @id @unique @default(uuid())
   createdAt   DateTime @default(now())
-  follower    User     @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
   followerId  String
-  following   User     @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
   followingId String
+
+  //relasi
+  follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
 
   @@unique([followerId, followingId])
 }
@@ -46,6 +49,7 @@ model FollowRequest {
   sender_id   String
   receiver_id String
 
+  //relasi
   sender   User @relation("SenderRequest", fields: [sender_id], references: [id])
   receiver User @relation("ReceiverRequest", fields: [receiver_id], references: [id])
 
@@ -67,7 +71,9 @@ model Profile {
   avatar_image  String  @default("https://hwchamber.co.uk/wp-content/uploads/2022/04/avatar-placeholder.gif")
   cover_image   String  @default("https://img.freepik.com/free-photo/smooth-black-paper-textured-background_53876-160610.jpg?semt=ais_hybrid&w=740")
   user_id       String  @unique
-  user          User    @relation(fields: [user_id], references: [id])
+
+  //relasi
+  user User @relation(fields: [user_id], references: [id])
 }
 
 model Post {
@@ -76,8 +82,11 @@ model Post {
   is_public  Boolean  @default(true)
   created_at DateTime @default(now())
   user_id    String
-  user       User     @relation(fields: [user_id], references: [id])
-  media      Media[]
+
+  //relasi
+  user  User    @relation(fields: [user_id], references: [id])
+  media Media[]
+  Likes Likes[]
 }
 
 model Media {
@@ -85,5 +94,19 @@ model Media {
   url     String
   type    String?
   post_id String
-  post    Post    @relation(fields: [post_id], references: [id])
+
+  //relasi
+  post Post @relation(fields: [post_id], references: [id])
+}
+
+model Likes {
+  id         String   @id @unique @default(uuid())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user_id    String
+  post_id    String
+
+  //relasi
+  user User @relation(fields: [user_id], references: [id])
+  post Post @relation(fields: [post_id], references: [id])
 }
