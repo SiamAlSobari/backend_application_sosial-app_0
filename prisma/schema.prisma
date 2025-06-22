@@ -50,8 +50,8 @@ model FollowRequest {
   receiver_id String
 
   //relasi
-  sender   User @relation("SenderRequest", fields: [sender_id], references: [id])
-  receiver User @relation("ReceiverRequest", fields: [receiver_id], references: [id])
+  sender   User @relation("SenderRequest", fields: [sender_id], references: [id],onDelete: Cascade)
+  receiver User @relation("ReceiverRequest", fields: [receiver_id], references: [id],onDelete: Cascade)
 
   @@unique([sender_id, receiver_id])
 }
@@ -73,7 +73,7 @@ model Profile {
   user_id       String  @unique
 
   //relasi
-  user User @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id],onDelete: Cascade)
 }
 
 model Post {
@@ -84,7 +84,7 @@ model Post {
   user_id    String
 
   //relasi
-  user  User    @relation(fields: [user_id], references: [id])
+  user  User    @relation(fields: [user_id], references: [id],onDelete: Cascade)
   media Media[]
   like Like[]
 }
@@ -96,7 +96,7 @@ model Media {
   post_id String
 
   //relasi
-  post Post @relation(fields: [post_id], references: [id])
+  post Post @relation(fields: [post_id], references: [id],onDelete: Cascade)
 }
 
 model Like {
@@ -107,8 +107,8 @@ model Like {
   post_id    String
 
   //relasi
-  user User @relation(fields: [user_id], references: [id])
-  post Post @relation(fields: [post_id], references: [id])
+  user User @relation(fields: [user_id], references: [id],onDelete: Cascade)
+  post Post @relation(fields: [post_id], references: [id],onDelete: Cascade)
 
   @@unique([user_id,post_id])
 }
