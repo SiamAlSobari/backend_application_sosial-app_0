@@ -27,7 +27,8 @@ model User {
   Followings      Follower[]      @relation("UserFollowings")
   sendRequest     FollowRequest[] @relation("SenderRequest")
   receiverRequest FollowRequest[] @relation("ReceiverRequest")
-  like           Like[]
+  like            Like[]
+  Comment         Comment[]
 }
 
 model Follower {
@@ -50,8 +51,8 @@ model FollowRequest {
   receiver_id String
 
   //relasi
-  sender   User @relation("SenderRequest", fields: [sender_id], references: [id],onDelete: Cascade)
-  receiver User @relation("ReceiverRequest", fields: [receiver_id], references: [id],onDelete: Cascade)
+  sender   User @relation("SenderRequest", fields: [sender_id], references: [id], onDelete: Cascade)
+  receiver User @relation("ReceiverRequest", fields: [receiver_id], references: [id], onDelete: Cascade)
 
   @@unique([sender_id, receiver_id])
 }
@@ -73,7 +74,7 @@ model Profile {
   user_id       String  @unique
 
   //relasi
-  user User @relation(fields: [user_id], references: [id],onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -84,9 +85,10 @@ model Post {
   user_id    String
 
   //relasi
-  user  User    @relation(fields: [user_id], references: [id],onDelete: Cascade)
-  media Media[]
-  like Like[]
+  user    User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  media   Media[]
+  like    Like[]
+  Comment Comment[]
 }
 
 model Media {
@@ -96,7 +98,7 @@ model Media {
   post_id String
 
   //relasi
-  post Post @relation(fields: [post_id], references: [id],onDelete: Cascade)
+  post Post @relation(fields: [post_id], references: [id], onDelete: Cascade)
 }
 
 model Like {
@@ -107,8 +109,25 @@ model Like {
   post_id    String
 
   //relasi
-  user User @relation(fields: [user_id], references: [id],onDelete: Cascade)
-  post Post @relation(fields: [post_id], references: [id],onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [post_id], references: [id], onDelete: Cascade)
 
-  @@unique([user_id,post_id])
+  @@unique([user_id, post_id])
+}
+
+model Comment {
+  id         String   @id @unique @default(uuid())
+  caption    String   @db.Text
+  created_at DateTime @default(now())
+  updated_at DateTime
+
+  user_id   String
+  parent_id String?
+  post_id   String
+
+  //relasi
+  user    User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post    Post      @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReply", fields: [parent_id], references: [id])
+  Comment Comment[] @relation("CommentReply")
 }
