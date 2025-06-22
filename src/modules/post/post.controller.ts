@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './post.dto';
 import { UserRequest } from 'src/common/interfaces/request.interface';
@@ -64,5 +64,14 @@ export class PostController {
         @Param('id') id:string
     ){
         return this.service.getUserIdPosts(id)
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthGuard)
+    deletePost(
+        @Req() req:UserRequest,
+        @Param('id') id:string
+    ){
+        return this.service.deletePost(req.user.id,id)
     }
 }

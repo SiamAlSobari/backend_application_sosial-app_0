@@ -62,4 +62,13 @@ export class PostService {
             data:posts
         }
     }
+
+    public async deletePost(user_id:string,id:string){
+        const post = await this.repository.deletePost(user_id,id)
+        return {
+            message:"Post berhasil dihapus",
+            data:post
+        }
+    }
 }
+
