@@ -95,4 +95,16 @@ export class PostRepository {
             }
         })
     }
+
+    public async updatePost(user_id:string,caption:string,post_id:string) {
+        return await this.prisma.post.update({
+            where: {
+                user_id:user_id,
+                id:post_id
+            },
+            data: {
+                caption:caption
+            }
+        })
+    }
 }
