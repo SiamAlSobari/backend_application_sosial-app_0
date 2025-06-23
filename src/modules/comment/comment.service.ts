@@ -6,4 +6,8 @@ export class CommentService {
     constructor(
         private readonly repository:CommentRepository
     ) {}
+
+    public async createDefaultComment(user_id:string,){
+
+    }
 }

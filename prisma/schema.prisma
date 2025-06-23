@@ -117,7 +117,7 @@ model Like {
 
 model Comment {
   id         String   @id @unique @default(uuid())
-  caption    String   @db.Text
+  content    String   @db.Text
   created_at DateTime @default(now())
   updated_at DateTime
 
