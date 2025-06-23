@@ -65,7 +65,8 @@ export class PostRepository {
                     include: {
                         profile: true
                     }
-                }
+                },
+                like: true
             }
         })
     }
