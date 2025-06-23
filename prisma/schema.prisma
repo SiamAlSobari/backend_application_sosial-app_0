@@ -119,7 +119,7 @@ model Comment {
   id         String   @id @unique @default(uuid())
   content    String   @db.Text
   created_at DateTime @default(now())
-  updated_at DateTime
+  updated_at DateTime @updatedAt
 
   user_id   String
   parent_id String?
