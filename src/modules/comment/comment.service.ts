@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CommentRepository } from './comment.repository';
-import { CreateDefaultCommentDto } from './comment.dto';
+import { CreateDefaultCommentDto, CreateReplyCommentDto } from './comment.dto';
 
 @Injectable()
 export class CommentService {
@@ -61,6 +61,14 @@ export class CommentService {
         return {
             message: 'Total comments retrieved successfully',
             data: total,
+        }
+    }
+
+    public async createCommentReply(user_id: string, dto: CreateReplyCommentDto) {
+        const comment = await this.repository.createReplyComment(user_id, dto);
+        return {
+            message: 'Reply comment created successfully',
+            data: comment,
         }
     }
 }

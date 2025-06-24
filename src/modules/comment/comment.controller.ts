@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nest
 import { CommentService } from './comment.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { UserRequest } from 'src/common/interfaces/request.interface';
-import { CreateDefaultCommentDto, QueryCommentDto } from './comment.dto';
+import { CreateDefaultCommentDto, CreateReplyCommentDto, QueryCommentDto } from './comment.dto';
 
 @Controller('comment')
 export class CommentController {
@@ -32,5 +32,14 @@ export class CommentController {
         @Param('post_id') post_id: string
     ){
         return await this.commentService.getTotalCommentsByPostId(post_id);
+    }
+
+    @Post('reply')
+    @UseGuards(AuthGuard)
+    public async createCommentReply(
+        @Body()dto:CreateReplyCommentDto,
+        @Req() req: UserRequest
+    ){
+        return await this.commentService.createCommentReply(req.user.id, dto);
     }
 }

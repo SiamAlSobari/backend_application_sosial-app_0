@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { CreateDefaultCommentDto } from "./comment.dto";
+import { CreateDefaultCommentDto, CreateReplyCommentDto } from "./comment.dto";
 
 @Injectable()
 export class CommentRepository {
@@ -37,12 +37,23 @@ export class CommentRepository {
         })
     }
 
-    
+
     public async getTotalCommentsByPostId(post_id: string) {
         return await this.prisma.comment.count({
             where: {
                 post_id: post_id
             }
+        });
+    }
+
+    public async createReplyComment(user_id: string, dto: CreateReplyCommentDto) {
+        return await this.prisma.comment.create({
+            data: {
+                content: dto.content,
+                user_id: user_id,
+                post_id: dto.post_id,
+                parent_id: dto.parent_id, // reply to a specific comment
+            },
         });
     }
 }
