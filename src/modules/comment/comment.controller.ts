@@ -20,7 +20,6 @@ export class CommentController {
     }
 
     @Get()
-    @UseGuards(AuthGuard)
     public async getCommentsByPostId(
         @Query() query:QueryCommentDto
     ) {

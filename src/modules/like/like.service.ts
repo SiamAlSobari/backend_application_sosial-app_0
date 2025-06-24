@@ -9,7 +9,9 @@ export class LikeService {
     ) {}
 
     public async createLikePost(user_id:string,dto:LikeDto) {
-        return this.likeRepository.createLikePost(user_id,dto)
+        const like = await this.likeRepository.createLikePost(user_id,dto)
+        
+        return like;
     }
 
     public async deleteLikePost(user_id:string,dto:LikeDto) {

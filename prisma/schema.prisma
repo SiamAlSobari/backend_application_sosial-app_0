@@ -29,6 +29,8 @@ model User {
   receiverRequest FollowRequest[] @relation("ReceiverRequest")
   like            Like[]
   Comment         Comment[]
+  receiverNotification    Notification[] @relation("NotificationReceiver")
+  senderNotification    Notification[] @relation("NotificationSender")
 }
 
 model Follower {
@@ -128,6 +130,30 @@ model Comment {
   //relasi
   user    User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   post    Post      @relation(fields: [post_id], references: [id], onDelete: Cascade)
-  parent  Comment?  @relation("CommentReply", fields: [parent_id], references: [id],onDelete: Cascade)
+  parent  Comment?  @relation("CommentReply", fields: [parent_id], references: [id], onDelete: Cascade)
   replies Comment[] @relation("CommentReply")
+}
+
+enum NotificationType {
+  follow_request
+  follow_accept
+  follow_reject
+  post_like
+  post_comment
+  post_comment_reply
+  like
+}
+
+model Notification {
+  id         String           @id @unique @default(uuid())
+  type       NotificationType
+  content    String?          @db.Text
+  is_read    Boolean          @default(false)
+  created_at DateTime         @default(now())
+
+  receiver_id String    //penerima notifikasi
+  sender_id   String?   //pengirim notifikasi (bisa null jika notifikasi tidak berasal dari pengguna lain),ini adalah representasi dari saya sendir
+
+  receiver User  @relation("NotificationReceiver", fields: [receiver_id], references: [id], onDelete: Cascade)
+  sender   User? @relation("NotificationSender", fields: [sender_id], references: [id], onDelete: Cascade)
 }
