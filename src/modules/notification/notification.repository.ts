@@ -6,4 +6,15 @@ export class NotificationRepository {
     constructor(
         private readonly prisma: PrismaService
     ) {}
+
+    public async createLikeNotification(sender_id:string,receiver_id:string,post_name_user:string){
+        return await this.prisma.notification.create({
+            data: {
+                type: 'like',
+                sender_id: sender_id,
+                receiver_id: receiver_id,
+                message: `${post_name_user} menyukai postingan kamu`,
+            }
+        })
+    }
 }

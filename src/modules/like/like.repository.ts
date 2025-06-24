@@ -19,4 +19,29 @@ export class LikeRepository {
             where: {...dto,user_id:user_id}
         })
     }
+
+    public async getLikePostNotification(post_id:string){
+        return await this.prisma.like.findFirst({
+            where:{
+                post_id: post_id
+            },
+            include:{
+                post:{
+                    select:{
+                        user_id: true,
+                    }
+                },
+                user:{
+                    include:{
+                        profile: {
+                            select: {
+                                id:true,
+                                name: true,
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
 }
