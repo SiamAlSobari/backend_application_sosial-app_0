@@ -13,9 +13,9 @@ export class LikeService {
     public async createLikePost(user_id:string,dto:LikeDto) {
         const like = await this.likeRepository.createLikePost(user_id,dto)
         const targetData = await this.likeRepository.getLikePostNotification(like.post_id);
-        
+
         // membuat notifikasi jika post yang di like bukan milik user yang melakukan like
-        // jika post yang di like milik user yang melakukan like, maka tidak perlu membuat not
+        // jika post yang di like milik user yang melakukan like, maka tidak perlu membuat notif
         if (targetData && targetData.post.user_id !== user_id) {
             await this.notificationRepository.createLikeNotification(
                 user_id,

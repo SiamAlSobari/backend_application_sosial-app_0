@@ -16,6 +16,10 @@ export class UserService  {
         if (existingUSer) {
             throw new HttpException("User Sudah ada", HttpStatus.CONFLICT)
         }
+        const existingUserName = await this.repository.findByUserName(dto.user_name)
+        if (existingUserName) {
+            throw new HttpException("Username Sudah ada", HttpStatus.BAD_REQUEST)
+        }
         const hashedPassword = await bcrypt.hash(dto.password, 10)
         return this.repository.signUp(dto, hashedPassword)
     }

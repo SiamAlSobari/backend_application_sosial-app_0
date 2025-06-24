@@ -39,6 +39,16 @@ export class UserRepository {
         })
     }
 
+    public async findByUserName(user_name: string) {
+        return this.prisma.user.findFirst({
+            where:{
+                profile:{
+                    user_name:user_name
+                }
+            },
+        })
+    }
+
     public async getAllUsers(user_id:string) {
         return this.prisma.user.findMany({
             where:{
