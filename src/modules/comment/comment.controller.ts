@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { UserRequest } from 'src/common/interfaces/request.interface';
@@ -25,5 +25,12 @@ export class CommentController {
         @Query() query:QueryCommentDto
     ) {
         return await this.commentService.getCommentsByPostId(query.post_id);
+    }
+
+    @Get('total/:post_id')
+    public async getTotalCommentsByPostId(
+        @Param('post_id') post_id: string
+    ){
+        return await this.commentService.getTotalCommentsByPostId(post_id);
     }
 }

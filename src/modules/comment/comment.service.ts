@@ -55,4 +55,12 @@ export class CommentService {
             data: buildComments,
         }
     }
+
+    public async getTotalCommentsByPostId(post_id: string) {
+        const total = await this.repository.getTotalCommentsByPostId(post_id);
+        return {
+            message: 'Total comments retrieved successfully',
+            data: total,
+        }
+    }
 }

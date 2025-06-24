@@ -36,4 +36,13 @@ export class CommentRepository {
             }
         })
     }
+
+    
+    public async getTotalCommentsByPostId(post_id: string) {
+        return await this.prisma.comment.count({
+            where: {
+                post_id: post_id
+            }
+        });
+    }
 }
