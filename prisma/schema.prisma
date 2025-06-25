@@ -141,7 +141,6 @@ enum NotificationType {
   post_like
   post_comment
   post_comment_reply
-  like
 }
 
 model Notification {
