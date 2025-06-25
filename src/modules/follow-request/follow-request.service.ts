@@ -2,12 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { FollowRequestRepository } from './follow-request.repository';
 import { FollowRequestDto } from './follow-request.dto';
 import { FollowerRepository } from '../follower/follower.repository';
+import { NotificationRepository } from '../notification/notification.repository';
 
 @Injectable()
 export class FollowRequestService {
     constructor(
         private readonly repository: FollowRequestRepository,
-        private readonly followerRepository: FollowerRepository
+        private readonly followerRepository: FollowerRepository,
+        private readonly notificationRepository: NotificationRepository
     ) {}
     
     public async sendFollowRequest(dto: FollowRequestDto, sender_id: string) {
@@ -18,7 +20,16 @@ export class FollowRequestService {
         if (existingRequest) {
             throw new HttpException("Request sudah ada", HttpStatus.CONFLICT)
         }
-        return this.repository.sendFollowRequest(dto.receiver_id, sender_id)
+        const createRequest = await this.repository.sendFollowRequest(dto.receiver_id, sender_id)
+        const createFolloweRequestNotificationn = await this.notificationRepository.createFollowRequestNotification(
+            sender_id,
+            dto.receiver_id,
+            createRequest.sender.profile?.name ?? ''
+        )
+        return {
+            message:"Permintaan berhasil dikirim",
+            data:createRequest
+        }
     }
 
     public async acceptFollowRequest(dto: FollowRequestDto, sender_id: string) {

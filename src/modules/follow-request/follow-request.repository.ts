@@ -22,6 +22,18 @@ export class FollowRequestRepository {
             data: {
                 sender_id: sender_id,
                 receiver_id: receiver_id
+            },
+            include:{
+                sender:{
+                    include:{
+                        profile: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    }
+                }
             }
         })
     }
