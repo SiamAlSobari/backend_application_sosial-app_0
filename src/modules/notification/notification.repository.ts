@@ -24,7 +24,18 @@ export class NotificationRepository {
                 type: 'follow_request',
                 sender_id: sender_id,
                 receiver_id: receiver_id,
-                message: `${post_name_user} mengajak kamu untuk follow`,
+                message: `${post_name_user} mengirim permintaan mengikuti kamu`,
+            }
+        })
+    }
+
+    public async createFollowAcceptedNotification(sender_id:string,receiver_id:string,post_name_user:string){
+        return await this.prisma.notification.create({
+            data: {
+                type: 'follow_accept',
+                sender_id: sender_id,
+                receiver_id: receiver_id,
+                message: `${post_name_user} menerima permintaan mengikuti kamu`,
             }
         })
     }

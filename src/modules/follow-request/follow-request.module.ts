@@ -5,9 +5,10 @@ import { FollowRequestRepository } from './follow-request.repository';
 import { JwtService } from '@nestjs/jwt';
 import { FollowerRepository } from '../follower/follower.repository';
 import { NotificationRepository } from '../notification/notification.repository';
+import { UserRepository } from '../user/user.repository';
 
 @Module({
   controllers: [FollowRequestController],
-  providers: [FollowRequestService,FollowRequestRepository,JwtService,FollowerRepository,NotificationRepository]
+  providers: [FollowRequestService,FollowRequestRepository,JwtService,FollowerRepository,NotificationRepository,UserRepository]
 })
 export class FollowRequestModule {}

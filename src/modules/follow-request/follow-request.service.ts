@@ -3,13 +3,15 @@ import { FollowRequestRepository } from './follow-request.repository';
 import { FollowRequestDto } from './follow-request.dto';
 import { FollowerRepository } from '../follower/follower.repository';
 import { NotificationRepository } from '../notification/notification.repository';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class FollowRequestService {
     constructor(
         private readonly repository: FollowRequestRepository,
         private readonly followerRepository: FollowerRepository,
-        private readonly notificationRepository: NotificationRepository
+        private readonly notificationRepository: NotificationRepository,
+        private readonly userRepository: UserRepository
     ) {}
     
     public async sendFollowRequest(dto: FollowRequestDto, sender_id: string) {
@@ -39,6 +41,19 @@ export class FollowRequestService {
         }
         await this.repository.deleteRequest(existingRequest.id)
         const createFollower = await this.followerRepository.createFollower(dto.receiver_id, sender_id)
+
+        //mencari user yang mengirim menerima permintaan
+        // Pastikan sender_id adalah user yang menerima permintaan
+        const sender = await this.userRepository.getUserById(sender_id);
+        if (!sender) {
+            throw new HttpException("Pengirim tidak ditemukan", HttpStatus.NOT_FOUND)
+        }
+        const createFollowAcceptedNotification = await this.notificationRepository.createFollowAcceptedNotification(
+            sender_id,
+            dto.receiver_id,
+            sender.profile?.name ?? ''
+
+        )
         return {
             message:"Permintaan berhasil diterima",
             data:createFollower

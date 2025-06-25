@@ -95,4 +95,11 @@ export class UserRepository {
             }
         })
     }
+
+    public async getUserById(user_id:string){
+        return this.prisma.user.findUnique({
+            where:{id:user_id},
+            include:{profile:true}
+        })
+    }
 }
