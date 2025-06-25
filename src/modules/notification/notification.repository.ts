@@ -10,7 +10,7 @@ export class NotificationRepository {
     public async createLikeNotification(sender_id:string,receiver_id:string,post_name_user:string){
         return await this.prisma.notification.create({
             data: {
-                type: 'like',
+                type: 'post_like',
                 sender_id: sender_id,
                 receiver_id: receiver_id,
                 message: `${post_name_user} menyukai postingan kamu`,
@@ -50,4 +50,16 @@ export class NotificationRepository {
             }
         })
     }
+    public async createDefaultCommentNotification(sender_id:string,receiver_id:string,content:string,name_user:string){
+        return await this.prisma.notification.create({
+            data: {
+                type: 'post_comment',
+                sender_id: sender_id,
+                receiver_id: receiver_id,
+                message: `${name_user} mengomentari postingan kamu: "${content}"`,
+            }
+        })
+    }
+
+    
 }

@@ -1,11 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CommentRepository } from './comment.repository';
 import { CreateDefaultCommentDto, CreateReplyCommentDto } from './comment.dto';
+import { NotificationRepository } from '../notification/notification.repository';
+import { PostRepository } from '../post/post.repository';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class CommentService {
     constructor(
-        private readonly repository:CommentRepository
+        private readonly repository:CommentRepository,
+        private readonly notificationRepository:NotificationRepository,
+        private readonly postRepository:PostRepository,
+        private readonly userRepository:UserRepository
     ) {}
 
     public async threeComment(comments: any[]) {
@@ -39,7 +45,23 @@ export class CommentService {
 
 
     public async createDefaultComment(user_id:string,dto:CreateDefaultCommentDto){
+        const getPostById = await this.postRepository.getPostById(dto.post_id);
+        if (!getPostById) {
+            throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+        }
+        const getUserById = await this.userRepository.getUserById(user_id);
+        if (!getUserById) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        }
         const comment = await this.repository.createDefaultComment(user_id, dto);
+        if (getPostById && getPostById.user_id !== user_id) {
+             await this.notificationRepository.createDefaultCommentNotification(
+                user_id,
+                getPostById.user_id,
+                dto.content,
+                getUserById.profile?.name ?? ''
+            );
+        }
         return {
             message: 'Comment created successfully',
             data: comment,
