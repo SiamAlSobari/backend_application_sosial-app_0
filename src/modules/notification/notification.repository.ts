@@ -50,13 +50,24 @@ export class NotificationRepository {
             }
         })
     }
-    public async createDefaultCommentNotification(sender_id:string,receiver_id:string,content:string,name_user:string){
+    public async createDefaultCommentNotification(sender_id:string,receiver_id:string,content:string,name:string){
         return await this.prisma.notification.create({
             data: {
                 type: 'post_comment',
                 sender_id: sender_id,
                 receiver_id: receiver_id,
-                message: `${name_user} mengomentari postingan kamu: "${content}"`,
+                message: `${name} mengomentari postingan kamu: "${content}"`,
+            }
+        })
+    }
+
+    public async createReplyCommentNotification(sender_id:string,receiver_id:string,content:string,name:string){
+        return await this.prisma.notification.create({
+            data: {
+                type: 'post_comment_reply',
+                sender_id: sender_id,
+                receiver_id: receiver_id,
+                message: `${name} menjawab komentar kamu: "${content}"`,
             }
         })
     }

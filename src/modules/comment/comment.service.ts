@@ -45,15 +45,21 @@ export class CommentService {
 
 
     public async createDefaultComment(user_id:string,dto:CreateDefaultCommentDto){
+        // getPostById mencari post berdasarkan id yang diberikan di dto
         const getPostById = await this.postRepository.getPostById(dto.post_id);
         if (!getPostById) {
             throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
         }
+
+        // getUserById mencari user berdasarkan user_id yang diberikan
         const getUserById = await this.userRepository.getUserById(user_id);
         if (!getUserById) {
             throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
+        // membuat komentar default berdasarkan user_id dan dto
         const comment = await this.repository.createDefaultComment(user_id, dto);
+
+        // membuat notifikasi jika user_id tidak sama dengan user_id dari post yang dikomentari
         if (getPostById && getPostById.user_id !== user_id) {
              await this.notificationRepository.createDefaultCommentNotification(
                 user_id,
@@ -87,7 +93,28 @@ export class CommentService {
     }
 
     public async createCommentReply(user_id: string, dto: CreateReplyCommentDto) {
+        // mencari user berdasarkan user_id
+        const getUserById = await this.userRepository.getUserById(user_id);
+        if (!getUserById) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        }
         const comment = await this.repository.createReplyComment(user_id, dto);
+
+        // mencari comment berdasarkan id
+        const getCommentById = await this.repository.getCommentById(dto.parent_id);
+        if (!getCommentById) {
+            throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+        }
+
+        // melaukan notifikasi jika user_id tidak sama dengan user_id dari comment yang dibalas
+        if (getCommentById && getCommentById.user_id !== user_id) {
+            await this.notificationRepository.createReplyCommentNotification(
+                user_id,
+                getCommentById.user_id,
+                dto.content,
+                getUserById.profile?.name ?? ''
+            );
+        }
         return {
             message: 'Reply comment created successfully',
             data: comment,

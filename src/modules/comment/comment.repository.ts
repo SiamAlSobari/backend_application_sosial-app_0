@@ -56,4 +56,19 @@ export class CommentRepository {
             },
         });
     }
+
+    public async getCommentById(id: string) {
+        return await this.prisma.comment.findUnique({
+            where: {
+                id: id
+            },
+            include: {
+                user: {
+                    include: {
+                        profile: true
+                    }
+                },
+            }
+        });
+    }
 }
