@@ -10,12 +10,13 @@ export class FollowerController {
         private readonly service:FollowerService
     ){}
 
-    @Get("followers")
+
+    //mencari teman
+    @Get("teman")
     @UseGuards(AuthGuard)
     public async getFollowers(
         @Req() req:UserRequest,
-        @Query() query:QueryFollowerDto
     ){
-        return this.service.findFollowers(req.user.id,query)
+        return this.service.findFollowers(req.user.id)
     }
 }

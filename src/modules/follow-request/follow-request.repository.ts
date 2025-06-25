@@ -13,6 +13,18 @@ export class FollowRequestRepository {
                 sender_id: receiver_id, // ini adalah dimana saya sebagai penerima
                 receiver_id: sender_id // ini adalah dimana penerima sebagai pengirim
                 //kurang lebih itu dimana saya sebagai penerima dan dia sebagi pengirim
+            },
+            include: {
+                receiver: {
+                    include: {
+                        profile: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    }
+                }
             }
         })
     }

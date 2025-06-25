@@ -17,20 +17,13 @@ export class FollowerRepository {
         })
     }
 
-    public async findFollowers(user_id,query:QueryFollowerDto){
+    public async findFollowers(user_id:string){
         return await this.prisma.follower.findMany({
             where: {
                 followingId:user_id,
                 NOT:{
                     followerId:user_id
                 },
-                follower:{
-                    profile:{
-                        name:{
-                            contains:query.search.toLowerCase() || "",
-                        }
-                    }
-                }
             },
             include:{
                 follower:{
@@ -39,8 +32,6 @@ export class FollowerRepository {
                     }
                 }
             },
-            take:Number(query.limit),
-            skip:(Number(query.page)-1)*Number(query.limit)
         })
     }
 

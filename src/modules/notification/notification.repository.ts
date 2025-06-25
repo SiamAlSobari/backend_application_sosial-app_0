@@ -39,4 +39,15 @@ export class NotificationRepository {
             }
         })
     }
+
+    public async createFollowRejectedNotification(sender_id:string,receiver_id:string,post_name_user:string){
+        return await this.prisma.notification.create({
+            data: {
+                type: 'follow_reject',
+                sender_id: sender_id,
+                receiver_id: receiver_id,
+                message: `${post_name_user} menolak permintaan mengikuti kamu`,
+            }
+        })
+    }
 }

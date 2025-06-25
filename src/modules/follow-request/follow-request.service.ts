@@ -66,6 +66,11 @@ export class FollowRequestService {
             throw new HttpException("Request tidak ada", HttpStatus.NOT_FOUND)
         }
         const deleteRequest = await this.repository.deleteRequest(existingRequest.id)
+        const createFollowRejectedNotification = await this.notificationRepository.createFollowRejectedNotification(
+            sender_id,
+            dto.receiver_id,
+            existingRequest.receiver.profile?.name ?? ''
+        )
         return {
             message:"Permintaan berhasil ditolak",
             data:deleteRequest
