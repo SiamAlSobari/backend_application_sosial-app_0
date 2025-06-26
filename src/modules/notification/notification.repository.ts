@@ -72,5 +72,23 @@ export class NotificationRepository {
         })
     }
 
+    public async getNotification(user_id:string){
+        return await this.prisma.notification.findMany({
+            where:{
+                receiver_id: user_id
+            },
+            include:{
+                sender:{
+                    include:{
+                        profile: true
+                    }
+                }
+            },
+            orderBy: {
+                created_at: 'desc'
+            },
+        })
+    }
+
     
 }

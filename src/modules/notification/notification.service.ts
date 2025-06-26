@@ -6,4 +6,8 @@ export class NotificationService {
     constructor(
         private readonly notificationRepository: NotificationRepository
     ) {}
+
+    public async getNotification(user_id: string) {
+        return this.notificationRepository.getNotification(user_id);
+    }
 }
