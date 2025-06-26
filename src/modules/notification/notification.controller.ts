@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { UserRequest } from 'src/common/interfaces/request.interface';
@@ -15,5 +15,13 @@ export class NotificationController {
         @Req() req:UserRequest
     ) {
         return this.notificationService.getNotification(req.user.id);
+    }
+
+    @Patch()
+    @UseGuards(AuthGuard)
+    public async updateNotification(
+        @Req() req:UserRequest
+    ) {
+        return this.notificationService.updateNotification(req.user.id);
     }
 }

@@ -90,5 +90,15 @@ export class NotificationRepository {
         })
     }
 
-    
+    public async updateNotification(user_id:string){
+        return await this.prisma.notification.updateMany({
+            where:{
+                receiver_id: user_id,
+                is_read: false
+            },
+            data:{
+                is_read: true
+            }
+        })
+    }
 }
