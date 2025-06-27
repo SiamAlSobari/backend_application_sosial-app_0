@@ -28,7 +28,7 @@ model User {
   sendRequest     FollowRequest[] @relation("SenderRequest")
   receiverRequest FollowRequest[] @relation("ReceiverRequest")
   like            Like[]
-  Comment         Comment[]
+  comment         Comment[]
   receiverNotification    Notification[] @relation("NotificationReceiver")
   senderNotification    Notification[] @relation("NotificationSender")
 }

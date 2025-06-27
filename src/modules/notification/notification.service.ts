@@ -8,7 +8,11 @@ export class NotificationService {
     ) {}
 
     public async getNotification(user_id: string) {
-        return this.notificationRepository.getNotification(user_id);
+        const result = await this.notificationRepository.getNotification(user_id);
+        return {
+            message: 'Notification fetched successfully',
+            data: result,
+        }
     }
 
     public async updateNotification(user_id: string) {
